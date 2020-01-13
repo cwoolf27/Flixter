@@ -2,7 +2,6 @@ class Instructor::SectionsController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :authenticate_user!
   before_action :require_authorized_for_current_course
-  before_action :require_authorized_for_current_section, only: [:update]
 
   def new
     @section = Section.new
@@ -14,7 +13,7 @@ class Instructor::SectionsController < ApplicationController
   end
 
   def update
-    current_section.update_attributes(lesson_params)
+    current_section.update_attributes(section_params)
     render plain: 'updated!'
   end
 
@@ -37,7 +36,7 @@ class Instructor::SectionsController < ApplicationController
   end
 
   def current_section
-    @current_section ||= Section.find(params[:section_id])
+    @current_section ||= Section.find(params[:id])
   end
 
   def section_params
